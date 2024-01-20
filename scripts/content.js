@@ -16,10 +16,24 @@ const targetURLs = [
 //     }
 //   });
 
+// window.addEventListener('scroll', () => {
+//     scrollCount++;
+//     alert("Scroll " + scrollCount)
+//     console.log("Scroll " + scrollCount)
+//     chrome.runtime.sendMessage({ type: 'scrollEvent', data: scrollCount });
+// });
+
+
+// Wait for the signal from the popup to start sending scroll data
+
 window.addEventListener('scroll', () => {
-    const scrollData = { // Object containing relevant scroll information };
-    chrome.runtime.sendMessage({ type: 'scrollEvent', data: scrollData })
-  }});
+    scrollCount++;
+    alert("Scroll " + scrollCount)
+    console.log("Scroll " + scrollCount)
+    chrome.runtime.sendMessage({ type: 'scrollEvent', data: scrollCount });
+});
+
+
 
 //   window.addEventListener('beforeunload', (event) => {
 //     // Prompt the user for confirmation

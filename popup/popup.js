@@ -26,9 +26,30 @@ document.addEventListener('DOMContentLoaded', function () {
   //   }
   //  });
 
-  window.onscroll = () => {
-    alert("Scrolling")
-  }
+//   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+//     if (message.type === 'scrollEvent') {
+//         const receivedScrollCount = message.data; // Access the scrollCount directly
+//         totalScrolls = receivedScrollCount;
+//         function updateDoomscrollStatus() {
+//           if (isMonitoring) {
+//               doomscrollStatusElement.textContent = 'Monitoring doomscrolls...';
+//           } else {
+//               doomscrollStatusElement.textContent = 'Not monitoring';
+//           }
+//       }
+//         // Example: Update an element in your popup's HTML
+//         totalScrollsElement.textContent = totalScrolls;
+//     }
+// });
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === 'scrollData') {
+    const scrollCounts = message.data;
+    // Update popup UI with scrollCounts
+    const receivedScrollCount = message.data; // Access the scrollCount directly
+    totalScrolls = receivedScrollCount;
+    updateDoomscrollStatus()
+}});
 
   function startMonitoring() {
     doomscrollStatus.textContent = 'Monitoring';
@@ -50,3 +71,13 @@ document.addEventListener('DOMContentLoaded', function () {
     // Implement logic to stop monitoring (e.g., send a message to content.js)
   }
 });
+
+function updateDoomscrollStatus() {
+  if (isMonitoring) {
+      doomscrollStatusElement.textContent = 'Monitoring doomscrolls...';
+  } else {
+      doomscrollStatusElement.textContent = 'Not monitoring';
+  }
+
+  totalScrollsElement.textContent = totalScrolls;
+}
