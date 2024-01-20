@@ -1,83 +1,91 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const doomscrollStatus = document.getElementById('doomscrollStatus');
-  const toggleMonitoringButton = document.getElementById('toggleMonitoring');
-  const totalScrollsElement = document.getElementById('totalScrolls');
-  const timeSpentElement = document.getElementById('timeSpent');
-
-  let isMonitoring = false;
-  let totalScrolls = 0;
-  let startTime;
-
-  toggleMonitoringButton.addEventListener('click', function () {
-    isMonitoring = !isMonitoring;
-
-    if (isMonitoring) {
-      startMonitoring();
-    } else {
-      stopMonitoring();
+    let isMonitoring = false;
+    const doomscrollStatusElement = document.getElementById('doomscrollStatus');
+    const toggleMonitoringButton = document.getElementById('toggleMonitoring');
+    const totalScrollsElement = document.getElementById('totalScrolls');
+  
+    // Retrieve initial monitoring state and scroll count from background
+    chrome.storage.local.get(['isMonitoring', 'totalScrolls'], (data) => {
+      isMonitoring = data.isMonitoring || false;
+      totalScrollsElement.textContent = data.totalScrolls || 0;
+      updateDoomscrollStatus();
+    });
+  
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+      if (message.type === 'scrollData') {
+        const receivedScrollCount = message.data;
+        totalScrollsElement.textContent = receivedScrollCount; // Update UI
+        chrome.storage.local.set({ totalScrolls: receivedScrollCount }, () => {
+          console.log('Scroll count stored in local storage:', receivedScrollCount);
+        });
+      } else if (message.type === 'monitoring') {
+        isMonitoring = message.data;
+        updateDoomscrollStatus();
+      }
+    });
+  
+    toggleMonitoringButton.addEventListener('click', function () {
+      isMonitoring = !isMonitoring;
+      updateDoomscrollStatus();
+  
+      if (isMonitoring) {
+        chrome.runtime.sendMessage({ type: 'startMonitoring' });
+      } else {
+        chrome.runtime.sendMessage({ type: 'stopMonitoring' });
+      }
+  
+      chrome.storage.local.set({ isMonitoring: isMonitoring }, () => {
+        console.log('Monitoring state saved:', isMonitoring);
+      });
+    });
+  
+    // Listen for scroll data from background
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+      if (message.type === 'scrollData') {
+        const receivedScrollCount = message.data;
+        totalScrolls = receivedScrollCount; // Update totalScrolls
+        localStorage.setItem('totalScrolls', totalScrolls); // Save to LocalStorage
+        updateDoomscrollStatus(); // Update UI with new scroll count
+      }
+    });
+  
+    chrome.runtime.sendMessage({ type: 'requestScrollData' }); // Request data on popup open
+  
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+      if (message.type === 'scrollData') {
+        const receivedScrollCount = message.data;
+        totalScrolls = receivedScrollCount; // Update totalScrolls
+        localStorage.setItem('totalScrolls', totalScrolls); // Save to LocalStorage
+        updateDoomscrollStatus(); // Update UI with new scroll count
+      }
+    });
+  
+    function startMonitoring() {
+      doomscrollStatusElement.textContent = 'Monitoring';
+      startTime = new Date();
+      toggleMonitoringButton.classList.add('monitoring');
+  
+      // Implement logic to start monitoring (e.g., send a message to content.js)
     }
-  });
-
-  //  window.addEventListener('scroll', () => {
-  //   alert("scroll")
-  //   if(isMonitoring) {
-  //     totalScrolls++;
-  //     totalScrollsElement.textContent = totalScrolls;
-  //   }
-  //  });
-
-//   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-//     if (message.type === 'scrollEvent') {
-//         const receivedScrollCount = message.data; // Access the scrollCount directly
-//         totalScrolls = receivedScrollCount;
-//         function updateDoomscrollStatus() {
-//           if (isMonitoring) {
-//               doomscrollStatusElement.textContent = 'Monitoring doomscrolls...';
-//           } else {
-//               doomscrollStatusElement.textContent = 'Not monitoring';
-//           }
-//       }
-//         // Example: Update an element in your popup's HTML
-//         totalScrollsElement.textContent = totalScrolls;
-//     }
-// });
-
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type === 'scrollData') {
-    const scrollCounts = message.data;
-    // Update popup UI with scrollCounts
-    const receivedScrollCount = message.data; // Access the scrollCount directly
-    totalScrolls = receivedScrollCount;
-    updateDoomscrollStatus()
-}});
-
-  function startMonitoring() {
-    doomscrollStatus.textContent = 'Monitoring';
-    startTime = new Date();
-
-    // Implement logic to start monitoring (e.g., send a message to content.js)
-  }
-
-  function stopMonitoring() {
-    doomscrollStatus.textContent = 'Not monitoring';
-    const endTime = new Date();
-    const timeDiff = (endTime - startTime) / 1000; // in seconds
-
-    //totalScrolls++; // For illustration purposes; you should update this based on your actual implementation
-
-    totalScrollsElement.textContent = totalScrolls;
-    timeSpentElement.textContent = `${timeDiff.toFixed(2)} seconds`;
-
-    // Implement logic to stop monitoring (e.g., send a message to content.js)
-  }
-});
-
-function updateDoomscrollStatus() {
-  if (isMonitoring) {
-      doomscrollStatusElement.textContent = 'Monitoring doomscrolls...';
-  } else {
+  
+    function stopMonitoring() {
       doomscrollStatusElement.textContent = 'Not monitoring';
-  }
-
-  totalScrollsElement.textContent = totalScrolls;
-}
+      toggleMonitoringButton.classList.remove('monitoring');
+  
+      // Implement logic to stop monitoring (e.g., send a message to content.js)
+  
+      // Remove seconds feature:
+      timeSpentElement.textContent = 'Time spent: Calculating...'; // Display a placeholder while monitoring
+    }
+  
+    function updateDoomscrollStatus() {
+        if (isMonitoring) {
+          doomscrollStatusElement.textContent = 'Monitoring doomscrolls...';
+          toggleMonitoringButton.classList.add('monitoring');
+        } else {
+          doomscrollStatusElement.textContent = 'Not monitoring';
+          toggleMonitoringButton.classList.remove('monitoring');
+        }
+      }
+    }
+);
