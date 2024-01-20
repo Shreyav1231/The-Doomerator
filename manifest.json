@@ -6,6 +6,17 @@
     "action" : {
         "default_popup" : "popup/popup.html",
         "default_icon" : "images/app-logo.png"
+    },
+    "permissions": [
+        "activeTab",
+        "storage",  
+        "declarativeContent" 
+    ],
+    "content_scripts": [
+    {
+        "matches": ["<all_urls>"], 
+        "js": ["content.js"]  
     }
+    ]
   }
   

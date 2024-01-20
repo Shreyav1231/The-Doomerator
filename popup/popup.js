@@ -18,6 +18,18 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  //  window.addEventListener('scroll', () => {
+  //   alert("scroll")
+  //   if(isMonitoring) {
+  //     totalScrolls++;
+  //     totalScrollsElement.textContent = totalScrolls;
+  //   }
+  //  });
+
+  window.onscroll = () => {
+    alert("Scrolling")
+  }
+
   function startMonitoring() {
     doomscrollStatus.textContent = 'Monitoring';
     startTime = new Date();
@@ -30,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const endTime = new Date();
     const timeDiff = (endTime - startTime) / 1000; // in seconds
 
-    totalScrolls++; // For illustration purposes; you should update this based on your actual implementation
+    //totalScrolls++; // For illustration purposes; you should update this based on your actual implementation
 
     totalScrollsElement.textContent = totalScrolls;
     timeSpentElement.textContent = `${timeDiff.toFixed(2)} seconds`;
