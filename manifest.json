@@ -1,5 +1,5 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "The Doomerator",
     "version": "1.0",
     "description": "extension to help you manage doomscrolling on web applications",
@@ -10,7 +10,7 @@
     "content_scripts": [
       {
         "matches": ["<all_urls>"],
-        "js": ["index.js"]
+        "js": ["popup.js"]
       }
     ]
   }
