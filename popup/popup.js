@@ -42,6 +42,8 @@ document.addEventListener('DOMContentLoaded', function () {
 //     }
 // });
 
+chrome.runtime.sendMessage({ type: 'requestScrollData' }); // Request data on popup open
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'scrollData') {
     const scrollCounts = message.data;

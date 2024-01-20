@@ -16,12 +16,6 @@ const targetURLs = [
 //     }
 //   });
 
-// window.addEventListener('scroll', () => {
-//     scrollCount++;
-//     alert("Scroll " + scrollCount)
-//     console.log("Scroll " + scrollCount)
-//     chrome.runtime.sendMessage({ type: 'scrollEvent', data: scrollCount });
-// });
 
 
 // Wait for the signal from the popup to start sending scroll data

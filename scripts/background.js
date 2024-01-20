@@ -15,3 +15,10 @@ chrome.runtime.onInstalled.addListener(() => {
     }
   });
 });
+
+// Also listen for messages from the popup
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.type === 'requestScrollData') {
+      chrome.tabs.sendMessage(sender.tab.id, { type: 'scrollData', data: storedScrollData });
+    }
+  });
