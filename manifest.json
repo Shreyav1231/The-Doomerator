@@ -12,9 +12,6 @@
         "storage",  
         "declarativeContent" 
     ],
-    "background": {
-        "scripts": ["background.js"]
-      },
     "content_scripts": [
     {
         "matches": ["<all_urls>"], 

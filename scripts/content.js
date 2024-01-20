@@ -33,6 +33,14 @@ window.addEventListener('scroll', () => {
     chrome.runtime.sendMessage({ type: 'scrollEvent', data: scrollCount });
 });
 
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.type === 'monitoring') {
+      const scrollCounts = message.data;
+      // Update popup UI with scrollCounts
+      const receivedScrollCount = message.data; // Access the scrollCount directly
+      totalScrolls = receivedScrollCount;
+      updateDoomscrollStatus()
+  }});
 
 
 //   window.addEventListener('beforeunload', (event) => {
