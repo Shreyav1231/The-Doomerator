@@ -5,7 +5,7 @@
     "description": "extension to help you manage doomscrolling on web applications",
     "action": {
       "default_popup": "popup/popup.html",
-      "default_icon": "images/app_logo.png"
+      "default_icon": "images/app-logo.png"
     },
     "permissions": [
       "activeTab",
