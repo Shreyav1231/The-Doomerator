@@ -71,22 +71,21 @@
 
         .slide-number {
             color: #ecf0f1;
-            font-size: 2.3em; /* Increased font size for boldness */
+            font-size: 2.3em;
             font-family: 'Roboto Mono', monospace;
             margin-bottom: 10px;
-        }
-
-        .text {
-            font-size: 1.5em;
-            line-height: 1.5;
-            max-width: 400px; /* Reduced max-width for a smaller pitch box */
-            margin: 0 auto;
         }
 
         .pitch {
             font-size: 1.7em;
             font-weight: 700;
             margin-bottom: 20px;
+        }
+
+        .pitch-date {
+            font-size: 0.9em;
+            font-family: 'Roboto Mono', monospace;
+            margin-top: -10px;
         }
 
         .navigation-circles {
@@ -122,7 +121,7 @@
                     THE DOOM DASHBOARD 
                 </h1>
                 <p class="pitch">
-                    Your doom statistics for today
+                    your stats @ <span id="currentDate" class="pitch-date"></span>
                 </p>
             </div>
             <div class="slide">
@@ -146,8 +145,8 @@
             </div>
         </div>
         
-        <div class="arrow left" onclick="prevSlide()">{{</div>
-        <div class="arrow right" onclick="nextSlide()">}}</div>
+        <div class="arrow left" onclick="prevSlide()">&#123;</div>
+        <div class="arrow right" onclick="nextSlide()">&#125;</div>
     </div>
 
     <script>
@@ -167,6 +166,17 @@
             currentSlide = (currentSlide % 3) + 1;
             goToSlide(currentSlide);
         }
+
+        function getCurrentDate() {
+            const now = new Date();
+            const day = now.getDate();
+            const month = now.getMonth() + 1;
+            const year = now.getFullYear();
+            const formattedDate = `${day}.${month}.${year}`;
+            document.getElementById('currentDate').textContent = formattedDate;
+        }
+
+        getCurrentDate();
     </script>
 </body>
 </html>

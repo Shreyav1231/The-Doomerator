@@ -16,8 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function openDashboard() {
-      const dashboardURL = chrome.runtime.getURL('dashboard/dashboard.html');
-      window.open(dashboardURL, '_blank');
+      window.open('http://127.0.0.1:5500/dashboard/dashboard.html', '_blank');
     }
   
     // Retrieve initial monitoring state and scroll count from background
@@ -89,11 +88,6 @@ document.addEventListener('DOMContentLoaded', function () {
     function stopMonitoring() {
       doomscrollStatusElement.textContent = 'Not monitoring';
       toggleMonitoringButton.classList.remove('monitoring');
-  
-      // Implement logic to stop monitoring (e.g., send a message to content.js)
-  
-      // Remove seconds feature:
-      timeSpentElement.textContent = 'Time spent: Calculating...'; // Display a placeholder while monitoring
     }
   
     function updateDoomscrollStatus() {
