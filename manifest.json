@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "Doominator",
+    "name": "The Doomerator",
     "version": "1.0",
     "description": "extension to help you manage doomscrolling on web applications",
     "action": {
