@@ -1,4 +1,14 @@
+import { createClient } from 'redis';
+
 let isMonitoring = false;
+
+const client = createClient({
+  password: '*******',
+  socket: {
+      host: 'redis-11309.c325.us-east-1-4.ec2.cloud.redislabs.com',
+      port: 11309
+  }
+});
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.local.get(['isMonitoring'], (data) => {
