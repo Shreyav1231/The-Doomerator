@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,7 +59,7 @@
 
         .slide-number {
             color: #ecf0f1;
-            font-size: 2.3em; /* Increased font size for boldness */
+            font-size: 2.3em;
             font-family: 'Roboto Mono', monospace;
             margin-bottom: 10px;
         }
@@ -66,7 +67,12 @@
         .text {
             font-size: 1.5em;
             line-height: 1.5;
-            max-width: 400px; /* Reduced max-width for a smaller pitch box */
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .title {
+            font-size: 5.0em;
             margin: 0 auto;
         }
 
@@ -94,6 +100,46 @@
             margin-bottom: 10px;
             cursor: pointer;
         }
+
+        .auth-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .auth-button {
+            padding: 8px 16px;
+            font-size: 1.3em;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: transparent;
+            color: #3498db;
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .auth-button:hover {
+            background-color: #3498db;
+            color: #ecf0f1;
+        }
+
+        .auth-button-contrast {
+            padding: 8px 16px;
+            font-size: 1.3em;
+            border: 2px solid #3CD7E7; /* Updated color */
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: transparent;
+            color: #3CD7E7; /* Updated color */
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .auth-button-contrast:hover {
+            background-color: #3CD7E7; /* Updated color */
+            color: #ecf0f1;
+        }
     </style>
 </head>
 
@@ -101,11 +147,11 @@
     <div id="slideshow">
         <div class="slide-wrapper">
             <div class="slide">
-                <h1 class="slide-number">
-                    📱DOOMINATOR📱 
+                <h1 class="title">
+                    DOOMINATOR 
                 </h1>
                 <p class="pitch">
-                    Your Digital Freedom Companion: Escape the Scroll 🌪️
+                    📱Escape The Scroll📱
                 </p>
             </div>
             <div class="slide">
@@ -126,12 +172,19 @@
             </div>
             <div class="slide">
                 <h1 class="slide-number">
-                    🚀TAKE CONTROL NOW!🚀
+                    🚀TAKE CONTROL NOW🚀
                 </h1>
                 <p class="pitch">
                     Your journey to a vibrant digital life starts with Doominator. Install the extension and unlock your healthier, happier self! 🎉🔐
                 </p>
-                <h2><a href="dashboard/dashboard.html">The Doominator Dashboard</a></h2>
+                <div class="auth-buttons">
+                    <a class="auth-button-contrast" href="https://YOUR_AUTH0_DOMAIN/login?client_id=YOUR_AUTH0_CLIENT_ID&redirect_uri=YOUR_AUTH0_REDIRECT_URI">
+                        Log In
+                    </a>
+                    <a class="auth-button-contrast" href="https://YOUR_AUTH0_DOMAIN/signup?client_id=YOUR_AUTH0_CLIENT_ID&redirect_uri=YOUR_AUTH0_REDIRECT_URI">
+                        Sign Up
+                    </a>
+                </div>
             </div>
         </div>
         <div class="navigation-circles">
@@ -152,10 +205,11 @@
             setInterval(() => {
                 currentSlide = (currentSlide % 4) + 1;
                 goToSlide(currentSlide);
-            }, 5000);
+            }, 7000);
         }
 
         automaticSlideShow();
     </script>
 </body>
+
 </html>
