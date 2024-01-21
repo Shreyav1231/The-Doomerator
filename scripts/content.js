@@ -1,10 +1,10 @@
 let scrollCount = 0;
 
 const targetURLs = [
-  'https://www.instagram.com',
+  'https://www.instagram.com/',
   'https://www.youtube.com/shorts',
-  'https://www.twitter.com',
-  'https://www.tiktok.com'
+  'https://www.twitter.com/',
+  'https://www.tiktok.com/'
 ];
 
 let isMonitoring = false;
@@ -15,26 +15,28 @@ let isMonitoring = false;
 
 window.addEventListener('scroll', () => {
   //if (targetURLs.includes(window.location.href)) {
-    //if(isMonitoring) {
         chrome.storage.local.get(['isMonitoring'], (data) => {
             isMonitoring = data.isMonitoring;
         })
 
         if(isMonitoring) {
-            console.log("Sending")
-            scrollCount++;
-            //alert("Scroll " + scrollCount)
-            console.log("Scroll " + scrollCount);
-            chrome.runtime.sendMessage({ type: 'scrollEvent', data: scrollCount });
+            console.log(window.location.href)
+            if (targetURLs.includes(window.location.href)) {
+                console.log("Sending")
+                scrollCount++;
+                //alert("Scroll " + scrollCount)
+                console.log("Scroll " + scrollCount);
+                chrome.runtime.sendMessage({ type: 'scrollEvent', data: scrollCount });
+
+            }
         }
+            
+})
         
-    //}
-    
-  //}
-});
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'startMonitoring') {
+    
     console.log("Sending")
     // Start sending scroll events to the background script
     window.addEventListener('scroll', () => {
