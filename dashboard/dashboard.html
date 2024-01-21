@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Doominator</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap">
+    <style>
+        .arrow {
+            position: absolute;
+            bottom: 20px;
+            color: #ecf0f1;
+            font-size: 2em;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .arrow.left {
+            left: 20px;
+        }
+
+        .arrow.right {
+            right: 20px;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            font-size: 2em;
+        }
+
+        #slideshow {
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            margin: 0;
+            position: relative;
+            background: linear-gradient(to bottom, #2c3e50, #e74c3c);
+            color: #ecf0f1;
+        }
+
+        .slide {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide:nth-child(1) {
+            background-color: #2980b9;
+        }
+
+        .slide:nth-child(2) {
+            background-color: #27ae60;
+        }
+
+        .slide:nth-child(3) {
+            background-color: #e67e22;
+        }
+
+        .slide-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 400%;
+            transition: margin-left 0.5s ease-in-out;
+        }
+
+        .slide-number {
+            color: #ecf0f1;
+            font-size: 2.3em; /* Increased font size for boldness */
+            font-family: 'Roboto Mono', monospace;
+            margin-bottom: 10px;
+        }
+
+        .text {
+            font-size: 1.5em;
+            line-height: 1.5;
+            max-width: 400px; /* Reduced max-width for a smaller pitch box */
+            margin: 0 auto;
+        }
+
+        .pitch {
+            font-size: 1.7em;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .navigation-circles {
+            position: absolute;
+            top: 50%;
+            right: 5px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            z-index: 999;
+        }
+
+        .circle {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #ecf0f1;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        h2 a {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="slideshow">
+        <div class="slide-wrapper">
+            <div class="slide">
+                <h1 class="slide-number">
+                    THE DOOM DASHBOARD 
+                </h1>
+                <p class="pitch">
+                    Your doom statistics for today
+                </p>
+            </div>
+            <div class="slide">
+                <h1 class="slide-number">
+                    APP USAGE
+                </h1>
+                <p class="pitch">
+                    1. INSTAGRAM <br>
+                    2. X <br>
+                    3. TIKTOK <br>
+                    4. SNAPCHAT <br>
+                </p>
+            </div>
+            <div class="slide">
+                <h1 class="slide-number">
+                    SCROLL COUNT OF THE DAY
+                </h1>
+                <p class="pitch">
+                    You DOOM scrolled for .... hours of the day
+                </p>
+            </div>
+        </div>
+        
+        <div class="arrow left" onclick="prevSlide()">{{</div>
+        <div class="arrow right" onclick="nextSlide()">}}</div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+
+        function goToSlide(slideNumber) {
+            document.querySelector('.slide-wrapper').style.marginTop = -(slideNumber - 1) * 100 + 'vh';
+            currentSlide = slideNumber;
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 2 + 3) % 3 + 1;
+            goToSlide(currentSlide);
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide % 3) + 1;
+            goToSlide(currentSlide);
+        }
+    </script>
+</body>
+</html>

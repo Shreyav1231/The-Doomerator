@@ -21,7 +21,6 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.local.set({ popupOpen: false }, () => {
     console.log('Initial popupOpen state set:', false);
   });
-
  
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === 'scrollEvent') {
@@ -37,6 +36,13 @@ chrome.runtime.onInstalled.addListener(() => {
             console.log('Storing scroll data');
           });
           chrome.runtime.sendMessage({ type: 'scrollData', data: storedScrollData });
+        client.set('totalScrolls', storedScrollData, (err, reply) => {
+          if (err) {
+            console.error('Error writing scroll data to Redis:', err);
+          } else {
+            console.log('Scroll data successfully written to Redis:', storedScrollData);
+          }
+        });
       } else {
         console.log("Popup is not currently open.");
       }

@@ -1,9 +1,24 @@
 document.addEventListener('DOMContentLoaded', function () {
-    let isMonitoring = false;
+     let isMonitoring = false;
     const doomscrollStatusElement = document.getElementById('doomscrollStatus');
     const toggleMonitoringButton = document.getElementById('toggleMonitoring');
     const totalScrollsElement = document.getElementById('totalScrolls');
-    totalScrollsElement.textContent = 0; 
+    const dashboardButton = createDashboardButton(); // Create dashboard button
+    totalScrollsElement.textContent = 0;
+
+    function createDashboardButton() {
+      const button = document.createElement('button');
+      button.textContent = 'Open Dashboard';
+      button.classList.add('dashboard-button'); // Add a new class for styling
+      button.addEventListener('click', openDashboard);
+      document.body.appendChild(button);
+      return button;
+    }
+
+    function openDashboard() {
+      const dashboardURL = chrome.runtime.getURL('dashboard/dashboard.html');
+      window.open(dashboardURL, '_blank');
+    }
   
     // Retrieve initial monitoring state and scroll count from background
     chrome.storage.local.get(['isMonitoring', 'totalScrolls', 'popupOpen'], (data) => {
