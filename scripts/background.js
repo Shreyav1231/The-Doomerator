@@ -1,29 +1,37 @@
+let isMonitoring = false;
+let popupOpen = false;
 let storedScrollData = 0;
 
 chrome.runtime.onInstalled.addListener(() => {
+  chrome.storage.local.get(['isMonitoring', 'totalScrolls'], (data) => {
+    isMonitoring = data.isMonitoring || false;
+    storedScrollData = data.totalScrolls || 0;
+  });
+
+  chrome.storage.local.set({ popupOpen: false }, () => {
+    console.log('Initial popupOpen state set:', false);
+  });
+
+ 
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === 'scrollEvent') {
       storedScrollData = message.data; // Store scroll count
       console.log("Scroll Data "+ storedScrollData)
-      // Check if popup is open and forward data
-      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        const popupTab = tabs.find((tab) => tab.url === chrome.runtime.getURL('popup.html'));
-      
-        if (popupTab) {
-          chrome.tabs.sendMessage(popupTab.id, { type: 'scrollData', data: storedScrollData });
-        } else {
-          // Handle the case where the popup is not open
-          console.log("Popup is not currently open.");
-          // You might consider storing the data temporarily or taking other actions
-        }
-      });
+       chrome.storage.local.get(['popupOpen'], (data) => {
+         popupOpen = data.popupOpen || false;
+       });
+
+      if(popupOpen) {
+        console.log("Scroll ")
+        chrome.storage.local.set({ totalScrolls: storedScrollData }, () => {
+            console.log('Storing scroll data');
+          });
+          chrome.runtime.sendMessage({ type: 'scrollData', data: storedScrollData });
+      } else {
+        console.log("Popup is not currently open.");
+      }
     }
   });
 });
 
-// Also listen for messages from the popup
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.type === 'requestScrollData') {
-      chrome.tabs.sendMessage(sender.tab.id, { type: 'scrollData', data: storedScrollData });
-    }
-  });
+
