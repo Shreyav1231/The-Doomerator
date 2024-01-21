@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>The Doomerator</title>
+    <style>
+        body {
+            font-family: Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            font-size: 2em;
+        }
+
+        #slideshow {
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            margin: 0;
+            position: relative;
+        }
+
+        .slide {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide:nth-child(1) {
+            background-color: #70F6Fd;
+        }
+
+        .slide:nth-child(2) {
+            background-color: #91FB8A;
+        }
+
+        .slide:nth-child(3) {
+            background-color: #FFbA3B;
+        }
+
+        .slide:nth-child(4) {
+            background-color: #6dea71; /* Color for the final slide */
+        }
+
+        .slide-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 400%; /* Adjusted to accommodate four slides */
+            transition: margin-top 0.5s ease-in-out; /* Added smooth transition */
+        }
+
+        .slide-number {
+            color: white;
+            font-size: 2em;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .navigation-circles {
+            position: absolute;
+            top: 50%;
+            right: 5px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            z-index: 999; /* Ensure the circles are above the slides */
+        }
+
+        .circle {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: white;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="slideshow">
+        <div class="slide-wrapper">
+            <div class="slide">
+                <h1 class="slide-number" class="title-page">
+                    The Doomerator
+                </h1>
+                <h1 class="slide-number">
+                    Insert Tagline.
+                </h1>
+            </div>
+            <div class="slide">
+                <h1 class="slide-number">
+                    Get away from the endless scrolling on social media with the new Doomerator
+                </h1>
+            </div>
+            <div class="slide">
+                <h1 class="slide-number">
+                    With features like notifications and trackers to stay up to date with your Doomscrolling
+                </h1>
+            </div>
+            <div class="slide">
+                <h1 class="slide-number">
+                    Install Our Extension Today!
+                </h1>
+                <h2><a href="dashboard.html">THE DOOMERATOR DASHBOARD</a></h2>
+            </div>
+        </div>
+        <div class="navigation-circles">
+            <div class="circle" onclick="goToSlide(1)"></div>
+            <div class="circle" onclick="goToSlide(2)"></div>
+            <div class="circle" onclick="goToSlide(3)"></div>
+            <div class="circle" onclick="goToSlide(4)"></div>
+        </div>
+    </div>
+
+    <script>
+        function goToSlide(slideNumber) {
+            document.querySelector('.slide-wrapper').style.marginTop = -(slideNumber - 1) * 100 + 'vh';
+        }
+
+        function automaticSlideShow() {
+            let currentSlide = 1;
+            setInterval(() => {
+                currentSlide = (currentSlide % 4) + 1;
+                goToSlide(currentSlide);
+            }, 3000); // Change slide every 10 seconds
+        }
+
+        automaticSlideShow(); // Start the automatic slideshow
+    </script>
+</body>
+</html>
