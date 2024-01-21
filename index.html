@@ -3,16 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Doomerator</title>
-    <link rel="stylesheet" href="style.css"> 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <title>The Doominator</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            font-size: 2em;
+        }
+
+        #slideshow {
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            margin: 0;
+            position: relative;
+            background: linear-gradient(to bottom, #2c3e50, #e74c3c);
+            color: #ecf0f1;
+        }
+
+        .slide {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide:nth-child(1) {
+            background-color: #2980b9;
+        }
+
+        .slide:nth-child(2) {
+            background-color: #27ae60;
+        }
+
+        .slide:nth-child(3) {
+            background-color: #e67e22;
+        }
+
+        .slide:nth-child(4) {
+            background-color: #e74c3c;
+        }
+
+        .slide-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 400%;
+            transition: margin-top 0.5s ease-in-out;
+        }
+
+        .slide-number {
+            color: #ecf0f1;
+            font-size: 2em;
+            font-family: 'Roboto Mono', monospace;
+            margin-bottom: 10px;
+        }
+
+        .text {
+            font-size: 1.5em;
+            line-height: 1.5;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .pitch {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .navigation-circles {
+            position: absolute;
+            top: 50%;
+            right: 5px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            z-index: 999;
+        }
+
+        .circle {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #ecf0f1;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+    </style>
 </head>
+
 <body>
-    <div class="homepage">
-        <a href = "login.html"><img id="opening-page-logo" class="onclick=window.location.href='index.html'" src="app-logo.png" width="200" height="200"></a>
-        <h1>THE DOOMERATOR</h1>
+    <div id="slideshow">
+        <div class="slide-wrapper">
+            <div class="slide">
+                <h1 class="slide-number">
+                    📱 The Doominator 📱 
+                </h1>
+                <p class="pitch">
+                    Your Digital Freedom Companion: Escape the Scroll
+                </p>
+            </div>
+            <div class="slide">
+                <h1 class="slide-number">
+                    🔓 Break Free 🔓 
+                </h1>
+                <p class="pitch">
+                    Doominator empowers you to seize control of your time, fostering a healthier and more mindful digital lifestyle.
+                </p>
+            </div>
+            <div class="slide">
+                <h1 class="slide-number">
+                    🌟 Empower Your Digital Well-Being 🌟
+                </h1>
+                <p class="pitch">
+                    Say goodbye to doomscrolling habits. Doominator notifies, tracks, and guides you toward positive digital choices.
+                </p>
+            </div>
+            <div class="slide">
+                <h1 class="slide-number">
+                    🚀 Take Control Now! 🚀
+                </h1>
+                <p class="pitch">
+                    Your journey to a vibrant digital life starts with Doominator. Install the extension and unlock your healthier, happier self!
+                </p>
+                <h2><a href="dashboard/dashboard.html">The Doominator Dashboard</a></h2>
+            </div>
+        </div>
+        <div class="navigation-circles">
+            <div class="circle" onclick="goToSlide(1)"></div>
+            <div class="circle" onclick="goToSlide(2)"></div>
+            <div class="circle" onclick="goToSlide(3)"></div>
+            <div class="circle" onclick="goToSlide(4)"></div>
+        </div>
     </div>
-    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
+
+    <script>
+        function goToSlide(slideNumber) {
+            document.querySelector('.slide-wrapper').style.marginTop = -(slideNumber - 1) * 100 + 'vh';
+        }
+
+        function automaticSlideShow() {
+            let currentSlide = 1;
+            setInterval(() => {
+                currentSlide = (currentSlide % 4) + 1;
+                goToSlide(currentSlide);
+            }, 5000);
+        }
+
+        automaticSlideShow();
+    </script>
 </body>
 </html>
