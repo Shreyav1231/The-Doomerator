@@ -3,12 +3,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const doomscrollStatusElement = document.getElementById('doomscrollStatus');
     const toggleMonitoringButton = document.getElementById('toggleMonitoring');
     const totalScrollsElement = document.getElementById('totalScrolls');
+    totalScrollsElement.textContent = 0; 
   
     // Retrieve initial monitoring state and scroll count from background
-    chrome.storage.local.get(['isMonitoring', 'totalScrolls'], (data) => {
+    chrome.storage.local.get(['isMonitoring', 'totalScrolls', 'popupOpen'], (data) => {
       isMonitoring = data.isMonitoring || false;
       totalScrollsElement.textContent = data.totalScrolls || 0;
+      popupOpen = data.popupOpen;
       updateDoomscrollStatus();
+    });
+
+    chrome.storage.local.set({ popupOpen: true }, () => {
+      console.log('Popup opened:', true);
     });
   
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -42,21 +48,18 @@ document.addEventListener('DOMContentLoaded', function () {
     // Listen for scroll data from background
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       if (message.type === 'scrollData') {
-        const receivedScrollCount = message.data;
-        totalScrolls = receivedScrollCount; // Update totalScrolls
-        localStorage.setItem('totalScrolls', totalScrolls); // Save to LocalStorage
+        chrome.storage.local.get(['totalScrolls'], (data) => {
+          totalScrolls = data.totalScrolls
+        })
         updateDoomscrollStatus(); // Update UI with new scroll count
       }
     });
-  
-    chrome.runtime.sendMessage({ type: 'requestScrollData' }); // Request data on popup open
-  
-    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-      if (message.type === 'scrollData') {
-        const receivedScrollCount = message.data;
-        totalScrolls = receivedScrollCount; // Update totalScrolls
-        localStorage.setItem('totalScrolls', totalScrolls); // Save to LocalStorage
-        updateDoomscrollStatus(); // Update UI with new scroll count
+
+    window.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        chrome.storage.local.set({ popupOpen: false }, () => {
+          console.log('Popup opened:', false);
+        });
       }
     });
   
@@ -86,6 +89,8 @@ document.addEventListener('DOMContentLoaded', function () {
           doomscrollStatusElement.textContent = 'Not monitoring';
           toggleMonitoringButton.classList.remove('monitoring');
         }
-      }
+
+        totalScrollsElement.textContent = totalScrolls
     }
+  }
 );

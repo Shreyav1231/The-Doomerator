@@ -1,6 +1,8 @@
 import { createClient } from 'redis';
 
 let isMonitoring = false;
+let popupOpen = false;
+let storedScrollData = 0;
 
 const client = createClient({
   password: '*******',
@@ -11,44 +13,35 @@ const client = createClient({
 });
 
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.local.get(['isMonitoring'], (data) => {
+  chrome.storage.local.get(['isMonitoring', 'totalScrolls'], (data) => {
     isMonitoring = data.isMonitoring || false;
+    storedScrollData = data.totalScrolls || 0;
   });
 
+  chrome.storage.local.set({ popupOpen: false }, () => {
+    console.log('Initial popupOpen state set:', false);
+  });
+
+ 
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.type === 'scrollEvent' && isMonitoring) {
-      const scrollCount = message.data;
+    if (message.type === 'scrollEvent') {
+      storedScrollData = message.data; // Store scroll count
+      console.log("Scroll Data "+ storedScrollData)
+       chrome.storage.local.get(['popupOpen'], (data) => {
+         popupOpen = data.popupOpen || false;
+       });
 
-      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        if (tabs.some((tab) => tab.url === chrome.runtime.getURL('popup.html'))) {
-          chrome.tabs.sendMessage(tabs[0].id, { type: 'scrollData', data: scrollCount });
-        }
-      });
-    } else if (message.type === 'startMonitoring') {
-      isMonitoring = true;
-      chrome.tabs.sendMessage(sender.tab.id, { type: 'monitoring', data: true });
-
-      // Add a listener for scroll data from the content script
-      chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-        if (message.type === 'scrollData') {
-          const scrollCount = message.data.scrollCount;
-          // ... (process scroll data as needed)
-        }
-      });
-    } else if (message.type === 'stopMonitoring') {
-      isMonitoring = false;
-      chrome.tabs.sendMessage(sender.tab.id, { type: 'monitoring', data: false });
-    } else if (message.type === 'getMonitoringState') {
-      sendResponse({ data: isMonitoring });
-    }
-  });
-
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    if (tabs.some((tab) => tab.url === chrome.runtime.getURL('popup.html'))) {
-      chrome.storage.local.get(['totalScrolls'], (data) => {
-        const totalScrolls = data.totalScrolls || 0;
-        chrome.tabs.sendMessage(tabs[0].id, { type: 'scrollData', data: totalScrolls });
-      });
+      if(popupOpen) {
+        console.log("Scroll ")
+        chrome.storage.local.set({ totalScrolls: storedScrollData }, () => {
+            console.log('Storing scroll data');
+          });
+          chrome.runtime.sendMessage({ type: 'scrollData', data: storedScrollData });
+      } else {
+        console.log("Popup is not currently open.");
+      }
     }
   });
 });
+
+
