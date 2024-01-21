@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Doominator</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap">
-    <script src="https://cdn.auth0.com/js/auth0/9.15/auth0.min.js"></script>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -73,7 +72,7 @@
         }
 
         .title {
-            font-size: 5.0em;
+            font-size: 5.5em;
             margin: 0 auto;
         }
 
@@ -102,6 +101,10 @@
             cursor: pointer;
         }
 
+        .circle.active {
+            background-color: #3498db; /* Choose your desired color for the active circle */
+        }
+
         .get-started-button {
             margin-top: 20px;
             padding: 8px 16px;
@@ -127,7 +130,7 @@
         <div class="slide-wrapper">
             <div class="slide">
                 <h1 class="title">
-                    DOOMINATOR 
+                    DOOMINATOR
                 </h1>
                 <p class="pitch">
                     📱Escape The Scroll📱
@@ -135,7 +138,7 @@
             </div>
             <div class="slide">
                 <h1 class="slide-number">
-                    🔓BREAK FREE🔓 
+                    🔓BREAK FREE🔓
                 </h1>
                 <p class="pitch">
                     Doominator empowers you to seize control of your time, fostering a healthier and more mindful digital lifestyle. ⏰🌿
@@ -156,7 +159,7 @@
                 <p class="pitch">
                     Your journey to a vibrant digital life starts with Doominator. Install the extension and unlock your healthier, happier self! 🎉🔐
                 </p>
-                <a class="get-started-button" href="#" id="get-started-button">
+                <a class="get-started-button" href="https://developer.chrome.com/docs/webstore/publish" id="get-started-button">
                     Get Started
                 </a>
                 <div id="profile"></div>
@@ -171,25 +174,14 @@
     </div>
 
     <script>
-        async function initializeAuth0() {
-            const auth0 = await createAuth0Client({
-                domain: 'dev-8x2t81sxnpcr0xwy.us.auth0.com',
-                client_id: 'poeIotWkX5gVMubg9njtQ57ivAxzwQQl',
-                authorizationParams: {
-                    redirect_uri: "https://shreyav1231.github.io/The-Doomerator/dashboard/dashboard.html"
-                }
+        function goToSlide(slideNumber) {
+            // Update circles
+            const circles = document.querySelectorAll('.circle');
+            circles.forEach((circle, index) => {
+                circle.classList.toggle('active', index + 1 === slideNumber);
             });
 
-            // Handle login with redirect
-            await auth0.loginWithRedirect();
-        }
-
-        document.getElementById('get-started-button').addEventListener('click', function (e) {
-            e.preventDefault(); // Prevent the default behavior of the link
-            initializeAuth0(); // Call your Auth0 initialization function here
-        });
-
-        function goToSlide(slideNumber) {
+            // Update slide
             document.querySelector('.slide-wrapper').style.marginTop = -(slideNumber - 1) * 100 + 'vh';
         }
 
