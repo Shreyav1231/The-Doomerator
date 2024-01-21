@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Doominator</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap">
+    <script src="https://cdn.auth0.com/js/auth0/9.15/auth0.min.js"></script>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -101,43 +102,21 @@
             cursor: pointer;
         }
 
-        .auth-buttons {
+        .get-started-button {
             margin-top: 20px;
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .auth-button {
             padding: 8px 16px;
             font-size: 1.3em;
-            border: 2px solid #3498db;
+            border: 2px solid #3CD7E7;
             border-radius: 5px;
             cursor: pointer;
             background-color: transparent;
-            color: #3498db;
+            color: #3CD7E7;
             text-decoration: none;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        .auth-button:hover {
-            background-color: #3498db;
-            color: #ecf0f1;
-        }
-
-        .auth-button-contrast {
-            padding: 8px 16px;
-            font-size: 1.3em;
-            border: 2px solid #3CD7E7; /* Updated color */
-            border-radius: 5px;
-            cursor: pointer;
-            background-color: transparent;
-            color: #3CD7E7; /* Updated color */
-            text-decoration: none;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .auth-button-contrast:hover {
-            background-color: #3CD7E7; /* Updated color */
+        .get-started-button:hover {
+            background-color: #3CD7E7;
             color: #ecf0f1;
         }
     </style>
@@ -177,14 +156,10 @@
                 <p class="pitch">
                     Your journey to a vibrant digital life starts with Doominator. Install the extension and unlock your healthier, happier self! 🎉🔐
                 </p>
-                <div class="auth-buttons">
-                    <a class="auth-button-contrast" href="https://YOUR_AUTH0_DOMAIN/login?client_id=YOUR_AUTH0_CLIENT_ID&redirect_uri=YOUR_AUTH0_REDIRECT_URI">
-                        Log In
-                    </a>
-                    <a class="auth-button-contrast" href="https://YOUR_AUTH0_DOMAIN/signup?client_id=YOUR_AUTH0_CLIENT_ID&redirect_uri=YOUR_AUTH0_REDIRECT_URI">
-                        Sign Up
-                    </a>
-                </div>
+                <a class="get-started-button" href="#" id="get-started-button">
+                    Get Started
+                </a>
+                <div id="profile"></div>
             </div>
         </div>
         <div class="navigation-circles">
@@ -196,6 +171,24 @@
     </div>
 
     <script>
+        async function initializeAuth0() {
+            const auth0 = await createAuth0Client({
+                domain: 'dev-8x2t81sxnpcr0xwy.us.auth0.com',
+                client_id: 'poeIotWkX5gVMubg9njtQ57ivAxzwQQl',
+                authorizationParams: {
+                    redirect_uri: "http://127.0.0.1:5500/dashboard/dashboard.html"
+                }
+            });
+
+            // Handle login with redirect
+            await auth0.loginWithRedirect();
+        }
+
+        document.getElementById('get-started-button').addEventListener('click', function (e) {
+            e.preventDefault(); // Prevent the default behavior of the link
+            initializeAuth0(); // Call your Auth0 initialization function here
+        });
+
         function goToSlide(slideNumber) {
             document.querySelector('.slide-wrapper').style.marginTop = -(slideNumber - 1) * 100 + 'vh';
         }
