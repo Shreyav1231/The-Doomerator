@@ -1,141 +1,89 @@
-
 body {
     font-size: 0.875rem;
     font-family: 'Roboto', sans-serif;
+    background-color: #ffb19a;
+    margin: 0;
 }
 
-main {
-    margin-top: 56px; /* Adjust as needed */
-}
-
-.feather {
-    width: 16px;
-    height: 16px;
-    vertical-align: text-bottom;
-}
-
-.sidebar {
-    position: fixed;
-    top: 0px;
-    bottom: 0px;
-    left: 83em;
-    z-index: 100;
-    padding: 10px;
-    box-shadow: rgba(0, 0, 0, 0.1) -1px 0px 0px inset;
-    width: 200px;
-}
-
-.sidebar-sticky {
-    position: sticky;
-    top: 48px;
-    height: calc(100vh - 48px);
-    padding-top: 0.5rem;
-    overflow: hidden auto;
-}
-
-.sidebar .nav-link {
-    font-weight: 500;
-    color: rgb(51, 51, 51);
-}
-
-.sidebar .nav-link .feather {
-    margin-right: 4px;
-    color: rgb(153, 153, 153);
-}
-
-.sidebar .nav-link.active {
-    color: rgb(0, 123, 255);
-}
-
-.sidebar .nav-link:hover .feather, .sidebar .nav-link.active .feather {
-    color: inherit;
-}
-
-.sidebar-heading {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-}
-
-#myChart {
-    z-index: 101;
-}
-
-.navbar-brand {
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
-    font-size: 1rem;
-    
-    background-color: #2980b9;
-    box-shadow: rgba(0, 0, 0, 0.25) -1px 0px 0px inset;
-}
-
-.navbar .form-control {
-    padding: 0.75rem 1rem;
-    border-width: 0px;
-    border-radius: 0px;
-}
-
-.form-control-dark {
-    color: rgb(255, 255, 255);
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.1);
-}
-
-.form-control-dark:focus {
-    border-color: transparent;
-    box-shadow: rgba(255, 255, 255, 0.25) 0px 0px 0px 3px;
-}
-
-.border-top {
-    border-top: 1px solid rgb(229, 229, 229);
-}
-
-.border-bottom {
-    border-bottom: 1px solid rgb(229, 229, 229);
-}
-
-
-/* Dropdown Button */
-.dropbtn {
-    background-color: #04AA6D;
+.header {
+    display: flex;
+    font-size: 2.3em;
     color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-  }
-  
-  /* The container <div> - needed to position the dropdown content */
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  
-  /* Dropdown Content (Hidden by Default) */
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-  
-  /* Links inside the dropdown */
-  .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
-  
-  /* Change color of dropdown links on hover */
-  .dropdown-content a:hover {background-color: #ddd;}
-  
-  /* Show the dropdown menu on hover */
-  .dropdown:hover .dropdown-content {display: block;}
-  
-  /* Change the background color of the dropdown button when the */
+    justify-content: center;
+    background-color: #b0deff;
+    padding: 1em;
+    transition: background-color 0.5s ease-in-out; /* Added transition for background color */
+}
 
-.javascript-bar-element {
-  z-index: 101; 
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+    opacity: 0;
+    animation: fadeInAnimation 1.5s ease-out forwards;
+}
+
+@keyframes fadeInAnimation {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.time-on-sm-website h3 {
+    color: #2980b9; 
+    margin-bottom: 1em;
+}
+
+.time-on-sm-website p {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+    font-size: 1.5em;
+    color: #333;
+    border-bottom: 2px solid #3498db;
+    padding: 0.5em 0;
+    width: 250px;
+}
+
+.time-on-sm-website p:hover {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.time-on-sm-website p:nth-child(1) {
+    animation: fadeInParagraph 1s ease-out 0.5s forwards;
+}
+
+.time-on-sm-website p:nth-child(2) {
+    animation: fadeInParagraph 1s ease-out 1s forwards;
+}
+
+.time-on-sm-website p:nth-child(3) {
+    animation: fadeInParagraph 1s ease-out 1.5s forwards;
+}
+
+.time-on-sm-website p:nth-child(4) {
+    animation: fadeInParagraph 1s ease-out 2s forwards;
+}
+
+.stat-title {
+    padding-top: 2em;
+}
+
+@keyframes fadeInParagraph {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
