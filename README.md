@@ -1,5 +1,5 @@
 # The-Doominator
-For Boilermake XI
+For Boilermake XI, 2024, with our amazing teammates and friends - Arnav, Shrish, Katie and Shreya.
 
 ## **Inspiration**
 
